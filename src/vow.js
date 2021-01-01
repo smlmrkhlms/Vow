@@ -3,6 +3,7 @@ const FULFILLED = 1;
 const REJECTED = 2;
 
 function Vow(executor) {
+  let resolved = false;
   let state = PENDING;
   let value = undefined;
 
@@ -14,24 +15,41 @@ function Vow(executor) {
     throw new TypeError("Executor must be a function.");
   }
 
-  let resolved = false;
-
-  const resolve = (resolution) => {
-    if (resolved) return;
-  };
-
   const reject = (reason) => {
     if (resolved) return;
 
     if (state !== PENDING) {
-      throw new Error("Pledge is already settled.");
+      throw new Error("Promise is already settled.");
     }
+
+    resolved = true;
+    state = REJECTED;
+    value = reason;
+  };
+
+
+  const resolve = (resolution) => {
+    if (resolved) return;
+
+    if (Object.is(this, resolution)) {
+      reject(new TypeError("Cannot resolve self."));
+    }
+
+    resolved = true;
   };
 
   try {
     executor(resolve, reject);
   } catch (e) {
     reject(e);
+  }
+
+  return {
+    then(onFulfilled, onRejected) {
+      return new Vow((res, rej) => {
+
+      });
+    }
   }
 }
 

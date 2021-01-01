@@ -4,9 +4,11 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "promises-aplus-tests ./src/adapter.js"
+    "test": "promises-aplus-tests ./src/adapter.js",
+    "test:watch": "nodemon --exec promises-aplus-tests ./src/adapter.js"
   },
   "devDependencies": {
+    "nodemon": "2.0.6",
     "promises-aplus-tests": "2.1.2"
   },
   "keywords": []
