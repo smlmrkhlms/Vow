@@ -34,7 +34,6 @@ function Vow(executor) {
       try {
         thenable = resolution.then;
       } catch (reason) {
-        console.log(reason);
         reject(reason);
         return;
       }
