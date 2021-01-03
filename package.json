@@ -5,9 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "test": "promises-aplus-tests ./src/adapter.js",
+    "test:jest": "jest --watch",
     "test:watch": "nodemon --exec promises-aplus-tests ./src/adapter.js"
   },
   "devDependencies": {
+    "jest": "26.6.3",
     "nodemon": "2.0.6",
     "promises-aplus-tests": "2.1.2"
   },
