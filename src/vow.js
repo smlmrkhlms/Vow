@@ -7,19 +7,19 @@ function isCallable(fn) {
 }
 
 function isObject(obj) {
-  return ((typeof obj === "object") && (obj !== null)) || isCallable(obj);
+  return ((typeof obj === 'object') && (obj !== null)) || isCallable(obj);
 }
 
 function Vow(executor) {
-  let id = this;
-  let queue = [];
+  const id = this;
+  const queue = [];
   let state = PENDING;
   let value = undefined;
 
   function reject(reason) {
     state = REJECTED;
     value = reason;
-    queue.forEach(cb => cb(value));
+    queue.forEach((cb) => cb(value));
   }
 
   function fulfill(resolution) {
@@ -46,7 +46,7 @@ function Vow(executor) {
 
     state = FULFILLED;
     value = resolution;
-    queue.forEach(cb => cb(value));
+    queue.forEach((cb) => cb(value));
   }
 
   function settle(fn) {
@@ -63,7 +63,7 @@ function Vow(executor) {
           if (settled) return;
           settled = true;
           reject(reason);
-        }
+        },
       );
     } catch (reason) {
       if (state === FULFILLED) return;
@@ -99,7 +99,7 @@ function Vow(executor) {
             } catch (reason) {
               rej(reason);
             }
-          })
+          });
         }
 
         if (state === PENDING) {

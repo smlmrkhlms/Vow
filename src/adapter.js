@@ -1,4 +1,4 @@
-const Vow = require("./vow");
+const Vow = require('./vow');
 
 module.exports = {
   deferred() {
@@ -10,8 +10,8 @@ module.exports = {
         resolve = _resolve;
         reject = _reject;
       }),
-      resolve: resolve,
-      reject: reject
+      resolve,
+      reject,
     };
   },
 };

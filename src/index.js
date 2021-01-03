@@ -1,1 +1,1 @@
-module.exports = require("./vow");
+module.exports = require('./vow');
