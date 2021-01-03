@@ -107,9 +107,7 @@ function Vow(executor) {
   }
 
   return {
-    catch(onRejected) {
-      return then(undefined, onRejected);
-    },
+    catch: (onRejected) => then(undefined, onRejected),
     id,
     state,
     then,
