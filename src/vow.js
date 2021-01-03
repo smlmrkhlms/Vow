@@ -73,44 +73,47 @@ function Vow(executor) {
 
   settle(executor);
 
+  function then(onFulfilled, onRejected) {
+    return new Vow((res, rej) => {
+      function resolve(resolution) {
+        setImmediate(() => {
+          if (state === FULFILLED && !isCallable(onFulfilled)) {
+            res(value);
+            return;
+          }
+
+          if (state === REJECTED && !isCallable(onRejected)) {
+            rej(value);
+            return;
+          }
+
+          const fn = state === FULFILLED ? onFulfilled : onRejected;
+
+          try {
+            res(fn(resolution));
+          } catch (reason) {
+            rej(reason);
+          }
+        });
+      }
+
+      if (state === PENDING) {
+        queue.push(resolve);
+        return;
+      }
+
+      resolve(value);
+    });
+  }
+
   return {
-    id,
-
-    state,
-
-    then(onFulfilled, onRejected) {
-      return new Vow((res, rej) => {
-        function resolve(resolution) {
-          setImmediate(() => {
-            if (state === FULFILLED && !isCallable(onFulfilled)) {
-              res(value);
-              return;
-            }
-
-            if (state === REJECTED && !isCallable(onRejected)) {
-              rej(value);
-              return;
-            }
-
-            const fn = state === FULFILLED ? onFulfilled : onRejected;
-
-            try {
-              res(fn(resolution));
-            } catch (reason) {
-              rej(reason);
-            }
-          });
-        }
-
-        if (state === PENDING) {
-          queue.push(resolve);
-          return;
-        }
-
-        resolve(value);
-      });
+    catch(onRejected) {
+      return then(undefined, onRejected);
     },
 
+    id,
+    state,
+    then,
     value,
   };
 }
