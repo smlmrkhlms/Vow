@@ -66,7 +66,7 @@ function Vow(executor) {
         },
       );
     } catch (reason) {
-      if (state === FULFILLED) return;
+      if (settled) return;
       reject(reason);
     }
   }
