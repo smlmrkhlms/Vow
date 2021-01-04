@@ -26,7 +26,7 @@ function Vow(executor) {
     if (isObject(resolution)) {
       let thenable;
 
-      if (Object.is(id, resolution.id)) {
+      if (id === resolution.id) {
         reject(new TypeError('Cannot resolve self.'));
         return;
       }
