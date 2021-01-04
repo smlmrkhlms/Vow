@@ -115,12 +115,14 @@ function Vow(executor) {
   return {
     catch: (onRejected) => then(undefined, onRejected),
     id,
-    reject: (reason) => new Vow((_res, rej) => rej(reason)),
-    resolve: (resolution) => new Vow((res) => res(resolution)),
     state,
     then,
     value,
   };
 }
+
+Vow.reject = (reason) => new Vow((_res, rej) => rej(reason));
+
+Vow.resolve = (resolution) => new Vow((res) => res(resolution));
 
 module.exports = Vow;
