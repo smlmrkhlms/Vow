@@ -77,22 +77,28 @@ function Vow(executor) {
     return new Vow((res, rej) => {
       function resolve(resolution) {
         setImmediate(() => {
-          if (state === FULFILLED && !isCallable(onFulfilled)) {
-            res(value);
-            return;
-          }
+          if (state === FULFILLED) {
+            if (!isCallable(onFulfilled)) {
+              res(value);
+              return;
+            }
 
-          if (state === REJECTED && !isCallable(onRejected)) {
-            rej(value);
-            return;
-          }
+            try {
+              res(onFulfilled(resolution));
+            } catch (reason) {
+              rej(reason);
+            }
+          } else {
+            if (!isCallable(onRejected)) {
+              rej(value);
+              return;
+            }
 
-          const fn = state === FULFILLED ? onFulfilled : onRejected;
-
-          try {
-            res(fn(resolution));
-          } catch (reason) {
-            rej(reason);
+            try {
+              res(onRejected(resolution));
+            } catch (reason) {
+              rej(reason);
+            }
           }
         });
       }
