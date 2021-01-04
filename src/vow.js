@@ -71,8 +71,6 @@ function Vow(executor) {
     }
   }
 
-  settle(executor);
-
   function then(onFulfilled, onRejected) {
     return new Vow((res, rej) => {
       function resolve(resolution) {
@@ -111,6 +109,8 @@ function Vow(executor) {
       resolve(value);
     });
   }
+
+  settle(executor);
 
   return {
     catch: (onRejected) => then(undefined, onRejected),
